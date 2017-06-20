@@ -5,3 +5,8 @@
 body {
   background-color: #e8b4dc;
 }
+
+img {
+  width: 25%;
+  /* display: inline-grid; */
+}
