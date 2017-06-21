@@ -7,9 +7,11 @@
 var product1 = '';
 var product2 = '';
 var product3 = '';
-var product4 = '';
-var product5 = '';
-var product6 = '';
+// var product4 = '';
+// var product5 = '';
+// var product6 = '';
+var currentGroup = [];
+var previousGroup = [];
 var productName = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 //console.log(productName);
 var productImagesParent = document.getElementById('imageSet');
@@ -21,17 +23,38 @@ var productArray = [];
 
 function startRun() { // generate 3 random products that are non-repeating
   product1 = generateRandomProduct();
-  while (product1 == product4 || product1 == product5 || product1 == product6) {
+  while (previousGroup.includes(product1)) {
     product1 = generateRandomProduct();
   }
+  console.log(product1);
+  currentGroup.push(product1);
+  console.log(currentGroup);
+  console.log('======================================');
   product2 = generateRandomProduct();
-  while (product2 == product1 || product2 == product4 || product2 == product5 || product2 == product6) {
+  while (currentGroup.includes(product2) || previousGroup.includes(product1)) {
     product2 = generateRandomProduct();
   }
+  console.log(product2);
+  currentGroup.push(product2);
+  console.log(currentGroup);
+  console.log('======================================');
   product3 = generateRandomProduct();
-  while (product3 == product2 || product3 == product1 || product3 == product4 || product3 == product5 || product3 == product6) {
+  while (currentGroup.includes(product3) || previousGroup.includes(product3)) {
     product3 = generateRandomProduct();
   }
+  console.log(product3);
+  currentGroup.push(product3);
+  console.log(currentGroup);
+  console.log('======================================');
+
+  previousGroup = currentGroup;
+  console.log(previousGroup);
+  console.log('======================================');
+
+  console.log('======================================');
+  currentGroup = [];
+  console.log(currentGroup);
+  console.log('======================================');
 
   renderProductImage(product1);
   renderProductImage(product2);
