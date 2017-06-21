@@ -108,9 +108,11 @@ productImagesParent.addEventListener ('click', function(event) { // event handle
   var chosen = event.target.getAttribute('id');
   productMap[chosen].timesClicked++; // and record timesClicked
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
+  productImagesParent.removeChild(productImagesParent.lastChild);
+  productImagesParent.removeChild(productImagesParent.lastChild);
   console.log('======================================');
   console.log(previousGroup);
   console.log('======================================');
-  previousGroup = productGenerator(previousGroup); // call productGenerator for 3 more non-repeating, non-duplicating pics
+  startRun(); // call productGenerator for 3 more non-repeating, non-duplicating pics
   console.log(previousGroup);
 });
