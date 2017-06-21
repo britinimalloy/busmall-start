@@ -1,38 +1,37 @@
 'use strict';
 
-console.log('Hello focus group!');
-alert('Hello focus group!');
+// console.log('Hello focus group!');
+// alert('Hello focus group!');
 
+//========VARIABLES================================================================
 var product1 = '';
 var product2 = '';
 var product3 = '';
+var product4 = '';
+var product5 = '';
+var product6 = '';
 var productName = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
-console.log(productName);
-//var productParent = document.getElementById('imageName');
+//console.log(productName);
 var productImagesParent = document.getElementById('imageSet');
 var productArray = [];
-//var currentGroup = [];
-//var previousGroup = [];
+//console.log(productArray);
 
-// var bag = new Class {}
-// bag.clicks
-//
-// array = [b53i5u9034580958, bannana]
-//
-// array[0] is the same as the bag object
-// array[0].clicks is the same as bags.clicks
 
 // =========FUNCTIONS==============================================================
 
-function startRun() {
+function startRun() { // generate 3 random products that are non-repeating
   product1 = generateRandomProduct();
+  while (product1 == product4 || product1 == product5 || product1 == product6) {
+    product1 = generateRandomProduct();
+  }
   product2 = generateRandomProduct();
+  while (product2 == product1 || product2 == product4 || product2 == product5 || product2 == product6) {
+    product2 = generateRandomProduct();
+  }
   product3 = generateRandomProduct();
-  console.log(product1);
-
-  // while (product1 ==) {
-  //   //do this each time I generate a random product
-  // }
+  while (product3 == product2 || product3 == product1 || product3 == product4 || product3 == product5 || product3 == product6) {
+    product3 = generateRandomProduct();
+  }
 
   renderProductImage(product1);
   renderProductImage(product2);
