@@ -26,35 +26,35 @@ function startRun() { // generate 3 random products that are non-repeating
   while (previousGroup.includes(product1)) {
     product1 = generateRandomProduct();
   }
-  console.log(product1);
+  // console.log(product1);
   currentGroup.push(product1);
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
   product2 = generateRandomProduct();
   while (currentGroup.includes(product2) || previousGroup.includes(product1)) {
     product2 = generateRandomProduct();
   }
-  console.log(product2);
+  // console.log(product2);
   currentGroup.push(product2);
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
   product3 = generateRandomProduct();
   while (currentGroup.includes(product3) || previousGroup.includes(product3)) {
     product3 = generateRandomProduct();
   }
-  console.log(product3);
+  // console.log(product3);
   currentGroup.push(product3);
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
 
   previousGroup = currentGroup;
-  console.log(previousGroup);
-  console.log('======================================');
+  // console.log(previousGroup);
+  // console.log('======================================');
 
-  console.log('======================================');
+  // console.log('======================================');
   currentGroup = [];
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
 
   renderProductImage(product1);
   renderProductImage(product2);
