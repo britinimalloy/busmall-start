@@ -56,10 +56,6 @@ function productGenerator(previousGroup) { // generate 3 random products that ar
   // console.log(previousGroup);
   // console.log('======================================');
 
-  // console.log('======================================');
-  currentGroup = [];
-  // console.log(currentGroup);
-  // console.log('======================================');
 
   // console.log(previousGroup);
   return previousGroup;
@@ -99,11 +95,20 @@ productImagesParent.addEventListener ('click', clickHandler);
 function clickHandler (event) { // event handler needs to:
   if (maxClicks > 24) {
     productImagesParent.removeEventListener ('click', clickHandler);
+    renderList();
   }
   // take click
+  console.log(currentGroup.length + 'yaaaay');
   for (var i = 0; i < currentGroup.length; i++) { // record timesShown
-    currentGroup[i].timesShown++;
+    productMap[currentGroup[i]].timesShown++;
+    console.log('-------');
+    console.log(productMap[currentGroup[i]]);
   }
+  // console.log('======================================');
+  currentGroup = [];
+  // console.log(currentGroup);
+  // console.log('======================================');
+
   var chosen = event.target.getAttribute('id');
   productMap[chosen].timesClicked++; // and record timesClicked
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
@@ -116,4 +121,13 @@ function clickHandler (event) { // event handler needs to:
   // console.log(previousGroup);
   maxClicks++;
   console.log(maxClicks);
+}
+
+function renderList () {
+  //set up list
+  //step through array of objects:
+    //to display name,
+    // times shown,
+    // times clicked
+  //
 }
