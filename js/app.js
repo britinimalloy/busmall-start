@@ -26,42 +26,27 @@ function startRun() { // generate 3 random products that are non-repeating
 startRun();
 
 function productGenerator(previousGroup) { // generate 3 random products that are non-repeating
-  // console.log(previousGroup);
   product1 = generateRandomProduct();
   while (previousGroup.includes(product1)) {
     product1 = generateRandomProduct();
   }
   console.log(product1);
   currentGroup.push(product1);
-  // console.log(currentGroup);
-  // console.log('======================================');
   product2 = generateRandomProduct();
   while (currentGroup.includes(product2) || previousGroup.includes(product2)) {
     product2 = generateRandomProduct();
   }
   console.log(product2);
   currentGroup.push(product2);
-  // console.log(currentGroup);
-  // console.log('======================================');
   product3 = generateRandomProduct();
   while (currentGroup.includes(product3) || previousGroup.includes(product3)) {
     product3 = generateRandomProduct();
   }
   console.log(product3);
   currentGroup.push(product3);
-  // console.log(currentGroup);
-  // console.log('======================================');
 
   previousGroup = currentGroup;
-  // console.log(previousGroup);
-  // console.log('======================================');
-
-  // console.log('======================================');
   currentGroup = [];
-  // console.log(currentGroup);
-  // console.log('======================================');
-
-  // console.log(previousGroup);
   return previousGroup;
 }
 
@@ -109,11 +94,57 @@ function clickHandler (event) { // event handler needs to:
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
   productImagesParent.removeChild(productImagesParent.lastChild);
   productImagesParent.removeChild(productImagesParent.lastChild);
-  // console.log('======================================');
-  // console.log(previousGroup);
-  // console.log('======================================');
   startRun(); // call productGenerator for 3 more non-repeating, non-duplicating pics
   // console.log(previousGroup);
   maxClicks++;
   console.log(maxClicks);
+}
+
+chart();
+draw();
+// ======attempt at a chart=====================================================
+function chart () {
+  var canvas = document.getElementById('chart');
+  var ctx = canvas.getContext('2d');
+
+  // modeled after the Getting Started example in the chartJS docs
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+      labels: ['Score', 'Attempts'],
+      datasets: [{
+        label: 'Number of Correct Answers',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [score, maxAttempts],
+      }]
+    },
+
+    // Configuration options go here
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
+
+function draw() {
+  var canvas = document.getElementById('chart');
+  var ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#26b7cf';
+  ctx.fillRect(10, 10, 20, 100);
+
+  ctx.fillStyle = '#cf2663';
+  ctx.fillRect(80, 10, 20, 100);
+
+  ctx.fillText('My string', 10, 100);
 }
