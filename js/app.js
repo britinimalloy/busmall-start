@@ -1,8 +1,5 @@
 'use strict';
 
-// console.log('Hello focus group!');
-// alert('Hello focus group!');
-
 //========VARIABLES================================================================
 var product1 = '';
 var product2 = '';
@@ -10,12 +7,9 @@ var product3 = '';
 var currentGroup = [];
 var previousGroup = [];
 var productName = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'];
-// var productName = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum'];
-//console.log(productName);
 var productImagesParent = document.getElementById('imageSet');
-
+var maxClicks = 0;
 var productMap = {};
-//console.log(productArray);
 
 
 // =========FUNCTIONS==============================================================
@@ -32,48 +26,48 @@ function startRun() { // generate 3 random products that are non-repeating
 startRun();
 
 function productGenerator(previousGroup) { // generate 3 random products that are non-repeating
-  console.log(previousGroup);
+  // console.log(previousGroup);
   product1 = generateRandomProduct();
   while (previousGroup.includes(product1)) {
     product1 = generateRandomProduct();
   }
   console.log(product1);
   currentGroup.push(product1);
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
   product2 = generateRandomProduct();
   while (currentGroup.includes(product2) || previousGroup.includes(product2)) {
     product2 = generateRandomProduct();
   }
   console.log(product2);
   currentGroup.push(product2);
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
   product3 = generateRandomProduct();
   while (currentGroup.includes(product3) || previousGroup.includes(product3)) {
     product3 = generateRandomProduct();
   }
   console.log(product3);
   currentGroup.push(product3);
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
 
   previousGroup = currentGroup;
-  console.log(previousGroup);
-  console.log('======================================');
+  // console.log(previousGroup);
+  // console.log('======================================');
 
-  console.log('======================================');
+  // console.log('======================================');
   currentGroup = [];
-  console.log(currentGroup);
-  console.log('======================================');
+  // console.log(currentGroup);
+  // console.log('======================================');
 
-  console.log(previousGroup);
+  // console.log(previousGroup);
   return previousGroup;
 }
 
 function generateRandomProduct () {
   var index = Math.floor(Math.random() * productName.length);
-  console.log(index);
+  // console.log(index);
   return productName[index];
 }
 
@@ -100,7 +94,12 @@ function CreateProducts (name) { // object constructor
   this.timesClicked = 0;
 }
 
-productImagesParent.addEventListener ('click', function(event) { // event handler needs to:
+productImagesParent.addEventListener ('click', clickHandler);
+
+function clickHandler (event) { // event handler needs to:
+  if (maxClicks > 24) {
+    productImagesParent.removeEventListener ('click', clickHandler);
+  }
   // take click
   for (var i = 0; i < currentGroup.length; i++) { // record timesShown
     currentGroup[i].timesShown++;
@@ -110,9 +109,11 @@ productImagesParent.addEventListener ('click', function(event) { // event handle
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
   productImagesParent.removeChild(productImagesParent.lastChild);
   productImagesParent.removeChild(productImagesParent.lastChild);
-  console.log('======================================');
-  console.log(previousGroup);
-  console.log('======================================');
+  // console.log('======================================');
+  // console.log(previousGroup);
+  // console.log('======================================');
   startRun(); // call productGenerator for 3 more non-repeating, non-duplicating pics
-  console.log(previousGroup);
-});
+  // console.log(previousGroup);
+  maxClicks++;
+  console.log(maxClicks);
+}
