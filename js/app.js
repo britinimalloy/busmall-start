@@ -148,3 +148,61 @@ function draw() {
 
   ctx.fillText('My string', 10, 100);
 }
+// =====attempt at local storage====================================
+function updateScoreElement () {
+  scoreElement.textContent = getScore() || 0;
+}
+
+function getScore () {
+  var score = localStorage.getItem('score');
+  if (score !== null) {
+    score = parseInt(score);
+  }
+  return score;
+}
+
+function createOrUpdateScore (value) {
+  value = value.toString();
+  localStorage.setItem('score', value);
+  var score = localStorage.getItem('score');
+  return score;
+}
+
+function deleteScore () {
+  localStorage.removeItem('score');
+  return null;
+}
+
+function getTreeState () {
+  var storageTreeState = localStorage.getItem('treeState');
+  //unstringify it
+  var parsedTreeState = JSON.parse(storageTreeState);
+  return parsedTreeState;
+}
+
+function createOrUpdateTreeState (correctTree, wrongTree) {
+  var treeState = {
+    correctTree: correctTree,
+    wrongTree: wrongTree
+  };
+  // convert to a stringified format
+  var stringifiedTreeState = JSON.stringify(treeState);
+  localStorage.setItem('treeState', stringifiedTreeState);
+  var storageTreeState = localStorage.getItem('treeState');
+  //unstringify it
+  var parsedTreeState = JSON.parse(storageTreeState);
+  return parsedTreeState;
+}
+
+function deleteTreeState () {
+  localStorage.removeItem('treeState');
+}
+
+function clearAllData () {
+  localStorage.clear();
+  return null;
+}
+
+function updateAttempts () {
+  attemptsElement.textContent = maxAttempts - attempts;
+}
