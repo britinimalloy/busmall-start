@@ -11,14 +11,13 @@ var productImagesParent = document.getElementById('imageSet');
 var maxClicks = 0;
 var productMap = {};
 var limit = 24;
-var table = document.createElement('table');
 
 
 // =========FUNCTIONS==============================================================
 
 function startRun() { // generate 3 random products that are non-repeating
   previousGroup = productGenerator(previousGroup);
-  // console.log(previousGroup);
+  console.log(previousGroup);
 
   renderProductImage(product1);
   renderProductImage(product2);
@@ -92,17 +91,12 @@ function CreateProducts (name) { // object constructor
   this.timesClicked = 0;
 }
 
-CreateProducts.prototype.render = function(table) {
-  var row = document.createElement('tr');
-  table.appendChild(row);
-};
-
 productImagesParent.addEventListener ('click', clickHandler);
 
 function clickHandler (event) { // event handler needs to:
   if (maxClicks > limit) {
-    renderTable();
     productImagesParent.removeEventListener ('click', clickHandler);
+    renderList();
   }
   // take click
   console.log(currentGroup.length + 'yaaaay');
@@ -121,25 +115,23 @@ function clickHandler (event) { // event handler needs to:
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
   productImagesParent.removeChild(productImagesParent.lastChild);
   productImagesParent.removeChild(productImagesParent.lastChild);
-  // console.log('======================================');
-  // console.log(previousGroup);
-  // console.log('======================================');
   startRun(); // call productGenerator for 3 more non-repeating, non-duplicating pics
-  // console.log(previousGroup);
   maxClicks++;
   console.log(maxClicks);
 }
 
-function renderTable () {
-  var parentElement = document.getElementById('productList');
-  parentElement.appendChild('table'); //set up list
-
-  for (var key in productMap) { //step through array of objects:
+function renderList () {
+  //set up list
+  //step through array of objects:
+    //to display name,
+    // times shown,
+    // times clicked
+  for (var key in productMap) {
     var prod = productMap[key];
     console.log(key);
-    prod.name; //to display name,
-    prod.timesShown; // times shown,
-    prod.timesClicked;  // times clicked
+    prod.name;
+    prod.timesShown;
+    prod.timesClicked;
     var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
     console.log(votes);
   }
