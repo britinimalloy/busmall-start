@@ -10,14 +10,14 @@ var productName = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum
 var productImagesParent = document.getElementById('imageSet');
 var maxClicks = 0;
 var productMap = {};
+var limit = 24;
+var list = document.createElement('ul');
 
 
 // =========FUNCTIONS==============================================================
 
 function startRun() { // generate 3 random products that are non-repeating
   previousGroup = productGenerator(previousGroup);
-  console.log(previousGroup);
-
   renderProductImage(product1);
   renderProductImage(product2);
   renderProductImage(product3);
@@ -30,29 +30,25 @@ function productGenerator(previousGroup) { // generate 3 random products that ar
   while (previousGroup.includes(product1)) {
     product1 = generateRandomProduct();
   }
-  console.log(product1);
   currentGroup.push(product1);
+
   product2 = generateRandomProduct();
   while (currentGroup.includes(product2) || previousGroup.includes(product2)) {
     product2 = generateRandomProduct();
   }
-  console.log(product2);
   currentGroup.push(product2);
+
   product3 = generateRandomProduct();
   while (currentGroup.includes(product3) || previousGroup.includes(product3)) {
     product3 = generateRandomProduct();
   }
-  console.log(product3);
   currentGroup.push(product3);
-
   previousGroup = currentGroup;
-  currentGroup = [];
   return previousGroup;
 }
 
 function generateRandomProduct () {
   var index = Math.floor(Math.random() * productName.length);
-  // console.log(index);
   return productName[index];
 }
 
@@ -81,70 +77,40 @@ function CreateProducts (name) { // object constructor
 
 productImagesParent.addEventListener ('click', clickHandler);
 
-function clickHandler (event) { // event handler needs to:
-  if (maxClicks > 24) {
+function clickHandler (event) {
+  if (maxClicks > limit) {
+    renderList();
     productImagesParent.removeEventListener ('click', clickHandler);
   }
-  // take click
+
   for (var i = 0; i < currentGroup.length; i++) { // record timesShown
-    currentGroup[i].timesShown++;
+    productMap[currentGroup[i]].timesShown++;
   }
+
+  currentGroup = [];
+
   var chosen = event.target.getAttribute('id');
   productMap[chosen].timesClicked++; // and record timesClicked
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
   productImagesParent.removeChild(productImagesParent.lastChild);
   productImagesParent.removeChild(productImagesParent.lastChild);
+
   startRun(); // call productGenerator for 3 more non-repeating, non-duplicating pics
-  // console.log(previousGroup);
   maxClicks++;
-  console.log(maxClicks);
 }
 
-chart();
-draw();
-// ======attempt at a chart=====================================================
-function chart () {
-  var canvas = document.getElementById('chart');
-  var ctx = canvas.getContext('2d');
+function renderList () {
+  var parentElement = document.getElementById('productList');
+  parentElement.append(list); //set up list
 
-  // modeled after the Getting Started example in the chartJS docs
-  var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'bar',
-
-    // The data for our dataset
-    data: {
-      labels: ['Score', 'Attempts'],
-      datasets: [{
-        label: 'Number of Correct Answers',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [score, maxAttempts],
-      }]
-    },
-
-    // Configuration options go here
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    }
-  });
-}
-
-function draw() {
-  var canvas = document.getElementById('chart');
-  var ctx = canvas.getContext('2d');
-
-  ctx.fillStyle = '#26b7cf';
-  ctx.fillRect(10, 10, 20, 100);
-
-  ctx.fillStyle = '#cf2663';
-  ctx.fillRect(80, 10, 20, 100);
-
-  ctx.fillText('My string', 10, 100);
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    prod.name;
+    prod.timesShown;
+    prod.timesClicked;
+    var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
+    var item = document.createElement('li');
+    item.textContent = votes;
+    list.appendChild(item);
+  }
 }
