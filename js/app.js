@@ -11,14 +11,14 @@ var productImagesParent = document.getElementById('imageSet');
 var maxClicks = 0;
 var productMap = {};
 var limit = 24;
-var list = document.createElement('ul');
+var table = document.createElement('table');
 
 
 // =========FUNCTIONS==============================================================
 
 function startRun() { // generate 3 random products that are non-repeating
   previousGroup = productGenerator(previousGroup);
-  console.log(previousGroup);
+  // console.log(previousGroup);
 
   renderProductImage(product1);
   renderProductImage(product2);
@@ -92,11 +92,16 @@ function CreateProducts (name) { // object constructor
   this.timesClicked = 0;
 }
 
+CreateProducts.prototype.render = function(table) {
+  var row = document.createElement('tr');
+  table.appendChild(row);
+};
+
 productImagesParent.addEventListener ('click', clickHandler);
 
 function clickHandler (event) { // event handler needs to:
   if (maxClicks > limit) {
-    renderList();
+    renderTable();
     productImagesParent.removeEventListener ('click', clickHandler);
   }
   // take click
@@ -125,9 +130,9 @@ function clickHandler (event) { // event handler needs to:
   console.log(maxClicks);
 }
 
-function renderList () {
+function renderTable () {
   var parentElement = document.getElementById('productList');
-  parentElement.appendChild('ul'); //set up list
+  parentElement.appendChild('table'); //set up list
 
   for (var key in productMap) { //step through array of objects:
     var prod = productMap[key];
@@ -136,12 +141,14 @@ function renderList () {
     prod.timesShown; // times shown,
     prod.timesClicked;  // times clicked
     var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
+    console.log(votes);
   }
   //var list = document.createElement('ul');
   for (var i = 0; i < productMap.length; i++) {
-    var item = document.createElement('li');
-    item.appendChild(votes);
-    list.appendChild(item);
+    var item = document.createElement('tr');
+    item.textContent = votes;
+    //item.appendChild(votes);
+    table.appendChild(item);
   }
   //return list;
 }
