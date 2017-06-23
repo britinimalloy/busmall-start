@@ -10,6 +10,8 @@ var productName = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum
 var productImagesParent = document.getElementById('imageSet');
 var maxClicks = 0;
 var productMap = {};
+var limit = 24;
+var list = document.createElement('ul');
 
 
 // =========FUNCTIONS==============================================================
@@ -93,9 +95,9 @@ function CreateProducts (name) { // object constructor
 productImagesParent.addEventListener ('click', clickHandler);
 
 function clickHandler (event) { // event handler needs to:
-  if (maxClicks > 24) {
-    productImagesParent.removeEventListener ('click', clickHandler);
+  if (maxClicks > limit) {
     renderList();
+    productImagesParent.removeEventListener ('click', clickHandler);
   }
   // take click
   console.log(currentGroup.length + 'yaaaay');
@@ -124,10 +126,22 @@ function clickHandler (event) { // event handler needs to:
 }
 
 function renderList () {
-  //set up list
-  //step through array of objects:
-    //to display name,
-    // times shown,
-    // times clicked
-  //
+  var parentElement = document.getElementById('productList');
+  parentElement.appendChild('ul'); //set up list
+
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    console.log(key);
+    prod.name; //to display name,
+    prod.timesShown; // times shown,
+    prod.timesClicked;  // times clicked
+    var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
+  }
+  //var list = document.createElement('ul');
+  for (var i = 0; i < productMap.length; i++) {
+    var item = document.createElement('li');
+    item.appendChild(votes);
+    list.appendChild(item);
+  }
+  //return list;
 }
