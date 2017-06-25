@@ -24,6 +24,9 @@ function startRun() { // generate 3 random products that are non-repeating
   renderProductImage(product1);
   renderProductImage(product2);
   renderProductImage(product3);
+
+  createOrUpdateProductStoreState(left, center, right);
+  console.log(localStorage);
 }
 
 startRun();
@@ -124,8 +127,8 @@ function setUpArraysForDisplay () {
   for (var key in productMap) { //step through array of objects:
     var prod = productMap[key];
     names.push(prod.name);
-    clicks.push(prod.timesShown);
-    shown.push(prod.timesClicked);
+    clicks.push(prod.timesClicked);
+    shown.push(prod.timesShown);
   }
 }
 
@@ -190,35 +193,34 @@ function displayChart () {
 //   return null;
 // }
 //
-// function getTreeState () {
-//   var storageTreeState = localStorage.getItem('treeState');
-//   //unstringify it
-//   var parsedTreeState = JSON.parse(storageTreeState);
-//   return parsedTreeState;
-// }
-//
-// function createOrUpdateTreeState (correctTree, wrongTree) {
-//   var treeState = {
-//     correctTree: correctTree,
-//     wrongTree: wrongTree
-//   };
-//   // convert to a stringified format
-//   var stringifiedTreeState = JSON.stringify(treeState);
-//   localStorage.setItem('treeState', stringifiedTreeState);
-//   var storageTreeState = localStorage.getItem('treeState');
-//   //unstringify it
-//   var parsedTreeState = JSON.parse(storageTreeState);
-//   return parsedTreeState;
-// }
-//
-// function deleteTreeState () {
-//   localStorage.removeItem('treeState');
-// }
-//
-// function clearAllData () {
-//   localStorage.clear();
-//   return null;
-// }
+function getProductStoreState () {
+  var storageProductStoredState = localStorage.getItem('storedProductState');
+  var parsedProductStoredState = JSON.parse(storageProductStoredState); //unstringify it
+  return parsedProductStoredState;
+}
+
+function createOrUpdateProductStoreState (left, center, right) {
+  var storedProductState = {
+    left: left,
+    center: center,
+    right: right
+  };
+
+  var stringifiedProductStoreStateState = JSON.stringify(storedProductState);// convert to a stringified format
+  localStorage.setItem('storedProductState', stringifiedProductStoreStateState);
+  var storageProductStoreState = localStorage.getItem('storedProductState'); //unstringify it
+  var parsedProductStoreStateState = JSON.parse(storageProductStoreState);
+  return parsedProductStoreStateState;
+}
+
+function deleteProductStoreState () {
+  localStorage.removeItem('storedProductState');
+}
+
+function clearAllData () {
+  localStorage.clear();
+  return null;
+}
 //
 // function updateAttempts () {
 //   attemptsElement.textContent = maxAttempts - attempts;
