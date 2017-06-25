@@ -12,9 +12,12 @@ var maxClicks = 0;
 var productMap = {};
 var limit = 24;
 var list = document.createElement('ul');
+var names = [];
+var clicks = [];
+var shown = [];
 
 
-// =========FUNCTIONS==============================================================
+//=========FUNCTIONS==========================================================
 
 function startRun() { // generate 3 random products that are non-repeating
   previousGroup = productGenerator(previousGroup);
@@ -80,6 +83,7 @@ productImagesParent.addEventListener ('click', clickHandler);
 function clickHandler (event) {
   if (maxClicks > limit) {
     renderList();
+    displayChart();
     productImagesParent.removeEventListener ('click', clickHandler);
   }
 
@@ -90,13 +94,78 @@ function clickHandler (event) {
   currentGroup = [];
 
   var chosen = event.target.getAttribute('id');
-  productMap[chosen].timesClicked++; // and record timesClicked
+  productMap[chosen].timesClicked++; // record timesClicked
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
   productImagesParent.removeChild(productImagesParent.lastChild);
   productImagesParent.removeChild(productImagesParent.lastChild);
 
   startRun(); // call productGenerator for 3 more non-repeating, non-duplicating pics
   maxClicks++;
+}
+
+function setUpArraysForDisplay () {
+
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    names.push(prod.name);
+    clicks.push(prod.timesShown);
+    shown.push(prod.timesClicked);
+  }
+}
+
+function renderList () {
+  var parentElement = document.getElementById('productList');
+  parentElement.append(list); //set up list
+
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    prod.name;
+    prod.timesShown;
+    prod.timesClicked;
+    var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
+    var item = document.createElement('li');
+    item.textContent = votes;
+    list.appendChild(item);
+  }
+}
+
+// ======attempt at a chart=====================================================
+function displayChart () {
+  var canvas = document.getElementById('chart');
+  var ctx = canvas.getContext('2d');
+  setUpArraysForDisplay();
+
+  // modeled after the demo
+  var productChart = new Chart(ctx, {
+    type: 'bar', // The type of chart we want to create
+
+    // The data
+    data: {
+      labels: names,
+      datasets: [{
+        label: 'times shown',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: shown,
+      },{
+        label: 'times clicked',
+        backgroundColor: 'rgb(168, 15, 224)',
+        borderColor: 'rgb(168, 15, 224)',
+        data: clicks,
+      }]
+    },
+
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
 }
 
 function renderList () {
