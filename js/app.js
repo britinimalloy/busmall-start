@@ -46,7 +46,6 @@ function productGenerator(previousGroup) { // generate 3 random products that ar
     product3 = generateRandomProduct();
   }
   currentGroup.push(product3);
-
   previousGroup = currentGroup;
   return previousGroup;
 }
@@ -84,7 +83,6 @@ productImagesParent.addEventListener ('click', clickHandler);
 function clickHandler (event) {
   if (maxClicks > limit) {
     renderList();
-    draw();
     displayChart();
     productImagesParent.removeEventListener ('click', clickHandler);
   }
@@ -167,4 +165,21 @@ function displayChart () {
       }
     }
   });
+}
+}
+
+function renderList () {
+  var parentElement = document.getElementById('productList');
+  parentElement.append(list); //set up list
+
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    prod.name;
+    prod.timesShown;
+    prod.timesClicked;
+    var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
+    var item = document.createElement('li');
+    item.textContent = votes;
+    list.appendChild(item);
+  }
 }
