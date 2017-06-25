@@ -81,6 +81,7 @@ productImagesParent.addEventListener ('click', clickHandler);
 function clickHandler (event) {
   if (maxClicks > limit) {
     // renderList();
+    draw();
     displayChart();
     productImagesParent.removeEventListener ('click', clickHandler);
   }
@@ -122,12 +123,12 @@ function displayChart () {
   var canvas = document.getElementById('chart');
   var ctx = canvas.getContext('2d');
 
-  // for (var key in productMap) { //step through array of objects:
-  //   var prod = productMap[key];
-  //   prod.name;
-  //   prod.timesShown;
-  //   prod.timesClicked;
-  // }
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    prod.name;
+    prod.timesShown;
+    prod.timesClicked;
+  }
 
   // modeled after the demo
   var productChart = new Chart(ctx, {
@@ -156,18 +157,15 @@ function displayChart () {
   });
 }
 
-// function draw() {
-//   var canvas = document.getElementById('chart');
-//   var ctx = canvas.getContext('2d');
-//
-//   ctx.fillStyle = '#26b7cf';
-//   ctx.fillRect(10, 10, 20, 100);
-//
-//   ctx.fillStyle = '#cf2663';
-//   ctx.fillRect(80, 10, 20, 100);
-//
-//   ctx.fillText('My string', 10, 100);
-// }
-//
-//
-// draw();
+function draw() {
+  var canvas = document.getElementById('chart');
+  var ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#26b7cf';
+  ctx.fillRect(10, 10, 20, 100);
+
+  ctx.fillStyle = '#cf2663';
+  ctx.fillRect(80, 10, 20, 100);
+
+  ctx.fillText('My string', 10, 100);
+}
