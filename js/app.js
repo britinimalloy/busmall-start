@@ -17,7 +17,7 @@ var clicks = [];
 var shown = [];
 
 
-//=========FUNCTIONS==========================================================
+// =========FUNCTIONS==============================================================
 
 function startRun() { // generate 3 random products that are non-repeating
   previousGroup = productGenerator(previousGroup);
@@ -103,16 +103,6 @@ function clickHandler (event) {
   maxClicks++;
 }
 
-function setUpArraysForDisplay () {
-
-  for (var key in productMap) { //step through array of objects:
-    var prod = productMap[key];
-    names.push(prod.name);
-    clicks.push(prod.timesShown);
-    shown.push(prod.timesClicked);
-  }
-}
-
 function renderList () {
   var parentElement = document.getElementById('productList');
   parentElement.append(list); //set up list
@@ -129,17 +119,41 @@ function renderList () {
   }
 }
 
+function setUpArraysForDisplay () {
+
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    names.push(prod.name);
+    clicks.push(prod.timesShown);
+    shown.push(prod.timesClicked);
+  }
+}
+
+// function renderList () {
+//   var parentElement = document.getElementById('productList');
+//   parentElement.append(list); //set up list
+//
+//   for (var key in productMap) { //step through array of objects:
+//     var prod = productMap[key];
+//     prod.name;
+//     prod.timesShown;
+//     prod.timesClicked;
+//     var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
+//     var item = document.createElement('li');
+//     item.textContent = votes;
+//     list.appendChild(item);
+//   }
+// }
+
 // ======attempt at a chart=====================================================
 function displayChart () {
   var canvas = document.getElementById('chart');
   var ctx = canvas.getContext('2d');
   setUpArraysForDisplay();
 
-  // modeled after the demo
   var productChart = new Chart(ctx, {
     type: 'bar', // The type of chart we want to create
 
-    // The data
     data: {
       labels: names,
       datasets: [{
@@ -165,21 +179,4 @@ function displayChart () {
       }
     }
   });
-}
-}
-
-function renderList () {
-  var parentElement = document.getElementById('productList');
-  parentElement.append(list); //set up list
-
-  for (var key in productMap) { //step through array of objects:
-    var prod = productMap[key];
-    prod.name;
-    prod.timesShown;
-    prod.timesClicked;
-    var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
-    var item = document.createElement('li');
-    item.textContent = votes;
-    list.appendChild(item);
-  }
 }
