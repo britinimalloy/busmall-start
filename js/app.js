@@ -10,14 +10,17 @@ var productName = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum
 var productImagesParent = document.getElementById('imageSet');
 var maxClicks = 0;
 var productMap = {};
+var limit = 24;
+var list = document.createElement('ul');
+var names = [];
+var clicks = [];
+var shown = [];
 
 
 // =========FUNCTIONS==============================================================
 
 function startRun() { // generate 3 random products that are non-repeating
   previousGroup = productGenerator(previousGroup);
-  console.log(previousGroup);
-
   renderProductImage(product1);
   renderProductImage(product2);
   renderProductImage(product3);
@@ -30,29 +33,25 @@ function productGenerator(previousGroup) { // generate 3 random products that ar
   while (previousGroup.includes(product1)) {
     product1 = generateRandomProduct();
   }
-  console.log(product1);
   currentGroup.push(product1);
+
   product2 = generateRandomProduct();
   while (currentGroup.includes(product2) || previousGroup.includes(product2)) {
     product2 = generateRandomProduct();
   }
-  console.log(product2);
   currentGroup.push(product2);
+
   product3 = generateRandomProduct();
   while (currentGroup.includes(product3) || previousGroup.includes(product3)) {
     product3 = generateRandomProduct();
   }
-  console.log(product3);
   currentGroup.push(product3);
-
   previousGroup = currentGroup;
-  currentGroup = [];
   return previousGroup;
 }
 
 function generateRandomProduct () {
   var index = Math.floor(Math.random() * productName.length);
-  // console.log(index);
   return productName[index];
 }
 
@@ -81,49 +80,80 @@ function CreateProducts (name) { // object constructor
 
 productImagesParent.addEventListener ('click', clickHandler);
 
-function clickHandler (event) { // event handler needs to:
-  if (maxClicks > 24) {
+function clickHandler (event) {
+  if (maxClicks > limit) {
+    renderList();
+    displayChart();
     productImagesParent.removeEventListener ('click', clickHandler);
   }
-  // take click
+
   for (var i = 0; i < currentGroup.length; i++) { // record timesShown
-    currentGroup[i].timesShown++;
+    productMap[currentGroup[i]].timesShown++;
   }
+
+  currentGroup = [];
+
   var chosen = event.target.getAttribute('id');
-  productMap[chosen].timesClicked++; // and record timesClicked
+  productMap[chosen].timesClicked++; // record timesClicked
   productImagesParent.removeChild(productImagesParent.lastChild); // clear imageSet
   productImagesParent.removeChild(productImagesParent.lastChild);
   productImagesParent.removeChild(productImagesParent.lastChild);
+
   startRun(); // call productGenerator for 3 more non-repeating, non-duplicating pics
-  // console.log(previousGroup);
   maxClicks++;
-  console.log(maxClicks);
 }
 
-chart();
-draw();
+function renderList () {
+  var parentElement = document.getElementById('productList');
+  parentElement.append(list); //set up list
+
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    prod.name;
+    prod.timesShown;
+    prod.timesClicked;
+    var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
+    var item = document.createElement('li');
+    item.textContent = votes;
+    list.appendChild(item);
+  }
+}
+
+function setUpArraysForDisplay () {
+
+  for (var key in productMap) { //step through array of objects:
+    var prod = productMap[key];
+    names.push(prod.name);
+    clicks.push(prod.timesShown);
+    shown.push(prod.timesClicked);
+  }
+}
+
+
 // ======attempt at a chart=====================================================
-function chart () {
+function displayChart () {
   var canvas = document.getElementById('chart');
   var ctx = canvas.getContext('2d');
+  setUpArraysForDisplay();
 
-  // modeled after the Getting Started example in the chartJS docs
-  var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'bar',
+  var productChart = new Chart(ctx, {
+    type: 'bar', // The type of chart we want to create
 
-    // The data for our dataset
     data: {
-      labels: ['Score', 'Attempts'],
+      labels: names,
       datasets: [{
-        label: 'Number of Correct Answers',
+        label: 'times shown',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
-        data: [score, maxAttempts],
+        data: shown,
+      },{
+        label: 'times clicked',
+        backgroundColor: 'rgb(168, 15, 224)',
+        borderColor: 'rgb(168, 15, 224)',
+        data: clicks,
       }]
     },
 
-    // Configuration options go here
     options: {
       scales: {
         yAxes: [{
@@ -135,74 +165,61 @@ function chart () {
     }
   });
 }
-
-function draw() {
-  var canvas = document.getElementById('chart');
-  var ctx = canvas.getContext('2d');
-
-  ctx.fillStyle = '#26b7cf';
-  ctx.fillRect(10, 10, 20, 100);
-
-  ctx.fillStyle = '#cf2663';
-  ctx.fillRect(80, 10, 20, 100);
-
-  ctx.fillText('My string', 10, 100);
-}
 // =====attempt at local storage====================================
-function updateScoreElement () {
-  scoreElement.textContent = getScore() || 0;
-}
-
-function getScore () {
-  var score = localStorage.getItem('score');
-  if (score !== null) {
-    score = parseInt(score);
-  }
-  return score;
-}
-
-function createOrUpdateScore (value) {
-  value = value.toString();
-  localStorage.setItem('score', value);
-  var score = localStorage.getItem('score');
-  return score;
-}
-
-function deleteScore () {
-  localStorage.removeItem('score');
-  return null;
-}
-
-function getTreeState () {
-  var storageTreeState = localStorage.getItem('treeState');
-  //unstringify it
-  var parsedTreeState = JSON.parse(storageTreeState);
-  return parsedTreeState;
-}
-
-function createOrUpdateTreeState (correctTree, wrongTree) {
-  var treeState = {
-    correctTree: correctTree,
-    wrongTree: wrongTree
-  };
-  // convert to a stringified format
-  var stringifiedTreeState = JSON.stringify(treeState);
-  localStorage.setItem('treeState', stringifiedTreeState);
-  var storageTreeState = localStorage.getItem('treeState');
-  //unstringify it
-  var parsedTreeState = JSON.parse(storageTreeState);
-  return parsedTreeState;
-}
-
-function deleteTreeState () {
-  localStorage.removeItem('treeState');
-}
-
-function clearAllData () {
-  localStorage.clear();
-  return null;
-}
-
-function updateAttempts () {
-  attemptsElement.textContent = maxAttempts - attempts;
-}
+// function updateScoreElement () {
+//   scoreElement.textContent = getScore() || 0;
+// }
+//
+// function getScore () {
+//   var score = localStorage.getItem('score');
+//   if (score !== null) {
+//     score = parseInt(score);
+//   }
+//   return score;
+// }
+//
+// function createOrUpdateScore (value) {
+//   value = value.toString();
+//   localStorage.setItem('score', value);
+//   var score = localStorage.getItem('score');
+//   return score;
+// }
+//
+// function deleteScore () {
+//   localStorage.removeItem('score');
+//   return null;
+// }
+//
+// function getTreeState () {
+//   var storageTreeState = localStorage.getItem('treeState');
+//   //unstringify it
+//   var parsedTreeState = JSON.parse(storageTreeState);
+//   return parsedTreeState;
+// }
+//
+// function createOrUpdateTreeState (correctTree, wrongTree) {
+//   var treeState = {
+//     correctTree: correctTree,
+//     wrongTree: wrongTree
+//   };
+//   // convert to a stringified format
+//   var stringifiedTreeState = JSON.stringify(treeState);
+//   localStorage.setItem('treeState', stringifiedTreeState);
+//   var storageTreeState = localStorage.getItem('treeState');
+//   //unstringify it
+//   var parsedTreeState = JSON.parse(storageTreeState);
+//   return parsedTreeState;
+// }
+//
+// function deleteTreeState () {
+//   localStorage.removeItem('treeState');
+// }
+//
+// function clearAllData () {
+//   localStorage.clear();
+//   return null;
+// }
+//
+// function updateAttempts () {
+//   attemptsElement.textContent = maxAttempts - attempts;
+// }
