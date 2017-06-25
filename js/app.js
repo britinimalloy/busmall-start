@@ -146,17 +146,17 @@ function displayChart () {
 
     // The data
     data: {
-      labels: ['product names'],
+      labels: names,
       datasets: [{
         label: 'times shown',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
-        data: [names, shown],
+        data: shown,
       },{
         label: 'times clicked',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [clicks],
+        backgroundColor: 'rgb(168, 15, 224)',
+        borderColor: 'rgb(168, 15, 224)',
+        data: clicks,
       }]
     },
 
