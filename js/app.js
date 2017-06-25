@@ -113,9 +113,6 @@ function setUpArraysForDisplay () {
     clicks.push(prod.timesShown);
     shown.push(prod.timesClicked);
   }
-  console.log(names);
-  console.log(clicks);
-  console.log(shown);
 }
 
 function renderList () {
@@ -170,17 +167,4 @@ function displayChart () {
       }
     }
   });
-}
-
-function draw() {
-  var canvas = document.getElementById('chart');
-  var ctx = canvas.getContext('2d');
-
-  ctx.fillStyle = '#26b7cf';
-  ctx.fillRect(10, 10, 20, 100);
-
-  ctx.fillStyle = '#cf2663';
-  ctx.fillRect(80, 10, 20, 100);
-
-  ctx.fillText('My string', 10, 100);
 }
