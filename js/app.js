@@ -27,7 +27,6 @@ function startRun() { // generate 3 random products that are non-repeating
   renderProductImage(product3);
 
   createOrUpdateProductStoreState(left, center, right);
-  console.log(localStorage);
 }
 
 startRun();
@@ -174,30 +173,7 @@ function displayChart () {
   });
 }
 // =====attempt at local storage====================================
-// function updateScoreElement () {
-//   scoreElement.textContent = getScore() || 0;
-// }
-//
-// function getScore () {
-//   var score = localStorage.getItem('score');
-//   if (score !== null) {
-//     score = parseInt(score);
-//   }
-//   return score;
-// }
-//
-// function createOrUpdateScore (value) {
-//   value = value.toString();
-//   localStorage.setItem('score', value);
-//   var score = localStorage.getItem('score');
-//   return score;
-// }
-//
-// function deleteScore () {
-//   localStorage.removeItem('score');
-//   return null;
-// }
-//
+
 function getProductStoreState () {
   var storageProductStoredState = localStorage.getItem('storedProductState');
   var parsedProductStoredState = JSON.parse(storageProductStoredState); //unstringify it
@@ -226,7 +202,3 @@ function clearAllData () {
   localStorage.clear();
   return null;
 }
-//
-// function updateAttempts () {
-//   attemptsElement.textContent = maxAttempts - attempts;
-// }
