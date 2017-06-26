@@ -15,6 +15,7 @@ var list = document.createElement('ul');
 var names = [];
 var clicks = [];
 var shown = [];
+var productChart;
 
 
 // =========FUNCTIONS==============================================================
@@ -85,6 +86,10 @@ function clickHandler (event) {
     renderList();
     displayChart();
     productImagesParent.removeEventListener ('click', clickHandler);
+    clearAllData();
+    deleteProductStoreState();
+  } else {
+    getProductStoreState();
   }
 
   for (var i = 0; i < currentGroup.length; i++) { // record timesShown
@@ -124,26 +129,11 @@ function setUpArraysForDisplay () {
   for (var key in productMap) { //step through array of objects:
     var prod = productMap[key];
     names.push(prod.name);
-    clicks.push(prod.timesShown);
-    shown.push(prod.timesClicked);
+    clicks.push(prod.timesClicked);
+    shown.push(prod.timesShown);
   }
 }
 
-// function renderList () {
-//   var parentElement = document.getElementById('productList');
-//   parentElement.append(list); //set up list
-//
-//   for (var key in productMap) { //step through array of objects:
-//     var prod = productMap[key];
-//     prod.name;
-//     prod.timesShown;
-//     prod.timesClicked;
-//     var votes = 'name: ' + prod.name + ' times shown: ' + prod.timesShown + ' times clicked: ' + prod.timesClicked;
-//     var item = document.createElement('li');
-//     item.textContent = votes;
-//     list.appendChild(item);
-//   }
-// }
 
 // ======attempt at a chart=====================================================
 function displayChart () {
@@ -151,7 +141,8 @@ function displayChart () {
   var ctx = canvas.getContext('2d');
   setUpArraysForDisplay();
 
-  var productChart = new Chart(ctx, {
+  productChart = new Chart(ctx, {
+
     type: 'bar', // The type of chart we want to create
 
     data: {
@@ -179,4 +170,35 @@ function displayChart () {
       }
     }
   });
+}
+
+// =====attempt at local storage====================================
+
+function getProductStoreState () {
+  var storageProductStoredState = localStorage.getItem('storedProductState');
+  var parsedProductStoredState = JSON.parse(storageProductStoredState); //unstringify it
+  return parsedProductStoredState;
+}
+
+function createOrUpdateProductStoreState (left, center, right) {
+  var storedProductState = {
+    left: left,
+    center: center,
+    right: right
+  };
+
+  var stringifiedProductStoreStateState = JSON.stringify(storedProductState);// convert to a stringified format
+  localStorage.setItem('storedProductState', stringifiedProductStoreStateState);
+  var storageProductStoreState = localStorage.getItem('storedProductState'); //unstringify it
+  var parsedProductStoreStateState = JSON.parse(storageProductStoreState);
+  return parsedProductStoreStateState;
+}
+
+function deleteProductStoreState () {
+  localStorage.removeItem('storedProductState');
+}
+
+function clearAllData () {
+  localStorage.clear();
+  return null;
 }
