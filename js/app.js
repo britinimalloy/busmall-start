@@ -25,8 +25,6 @@ function startRun() { // generate 3 random products that are non-repeating
   renderProductImage(product1);
   renderProductImage(product2);
   renderProductImage(product3);
-
-  createOrUpdateProductStoreState(left, center, right);
 }
 
 startRun();
