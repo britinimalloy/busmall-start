@@ -142,6 +142,7 @@ function displayChart () {
   setUpArraysForDisplay();
 
   productChart = new Chart(ctx, {
+
     type: 'bar', // The type of chart we want to create
 
     data: {
@@ -170,6 +171,7 @@ function displayChart () {
     }
   });
 }
+
 // =====attempt at local storage====================================
 
 function getProductStoreState () {
