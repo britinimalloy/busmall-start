@@ -15,7 +15,7 @@ var list = document.createElement('ul');
 var names = [];
 var clicks = [];
 var shown = [];
-var productChart;
+//var productChart;
 
 
 // =========FUNCTIONS==============================================================
