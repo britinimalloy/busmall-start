@@ -14,3 +14,19 @@ img {
   width: ;
   height: ;
 }
+
+#imageSet {
+  text-align: center;
+}
+
+#imageSet img {
+  height: 200px;
+  width: 25%;
+  margin: 20px;
+  vertical-align: middle;
+}
+
+#imageSet img:hover {
+  border: 5px solid #bc42f4;
+  transform: scale(2);
+}
