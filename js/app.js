@@ -15,6 +15,7 @@ var list = document.createElement('ul');
 var names = [];
 var clicks = [];
 var shown = [];
+var productChart;
 
 
 // =========FUNCTIONS==============================================================
@@ -88,6 +89,10 @@ function clickHandler (event) {
     renderList();
     displayChart();
     productImagesParent.removeEventListener ('click', clickHandler);
+    clearAllData();
+    deleteProductStoreState();
+  } else {
+    getProductStoreState();
   }
 
   for (var i = 0; i < currentGroup.length; i++) { // record timesShown
@@ -139,7 +144,7 @@ function displayChart () {
   var ctx = canvas.getContext('2d');
   setUpArraysForDisplay();
 
-  var productChart = new Chart(ctx, {
+  productChart = new Chart(ctx, {
     type: 'bar', // The type of chart we want to create
 
     data: {
